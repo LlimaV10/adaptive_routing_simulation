@@ -10,6 +10,7 @@
 		require_once("../region.class.php");
 		require_once("../workstation.class.php");
 		require_once("../workstation.class.php");
+		require_once("../message.class.php");
 
 		session_start();
 		$net = $_SESSION['net'];
@@ -26,13 +27,14 @@
 
 		$s = "";
 		for ($i = 0; $i < $count_packages; $i++) {
+			new Message($first_node, Workstation::get_station_by_id($_POST["to_station"]));
 			$s .= "<div class='message' style='left: ".$first_node->x."px; top: ".$first_node->y."px;'></div>";
 		}
 	    $result = array(
 	    	'messages' => $s,
 	    	'node_id' => $first_node->get_id()
 	    ); 
-	    $_SESSION['going_station'] = $_POST["to_station"];
+	    $_SESSION['messages'] = Message::$messages;
 	    // Переводим массив в JSON
 	    echo json_encode($result); 
 	}

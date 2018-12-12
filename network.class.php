@@ -94,7 +94,7 @@
 		public function get_nodes_ways() {
 			foreach ($this->regions as $region) {
 				foreach ($region->get_nodes() as $node) {
-					$node->get_ways();
+					$node->calculate_ways();
 				}
 			}
 		}
