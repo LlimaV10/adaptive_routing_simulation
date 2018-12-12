@@ -8,8 +8,8 @@
 	require_once("workstation.class.php");
 	require_once("message.class.php");
 
-	$width = 1200;
-	$height = 550;
+	$width = 1800;
+	$height = 920;
 
 	$weights = new Weights(array(2, 4, 5, 9, 10, 12, 18, 21, 23, 26, 28, 32));
 
@@ -19,7 +19,7 @@
 	$net->add_region(new Region(8));
 
 	$net->connect_all();
-	//$net->get_nodes_ways();
+	$net->get_nodes_ways();
 
 	session_start();
 	$_SESSION['net'] = $net;

@@ -45,7 +45,7 @@
 			$arr_nodes[] = $node;
 			if ($node == $workstation) {
 				$this->ways[$workstation->get_id()][] = $arr_nodes[1];
-				$this->ways_connections[$workstation->get_id()][] = $first_connection;
+				$this->ways_connections[$workstation->get_id()][] = $first_connection[0];
 				$this->ways_weight[$workstation->get_id()][] = $weight;
 				$this->ways_transit[$workstation->get_id()][] = count($arr_nodes) - 1;
 			}
@@ -53,16 +53,19 @@
 				$next_node = $connection->get_another_node($node);
 				if (in_array($next_node, $arr_nodes))
 					continue;
-				if ($first_connection == -1)
-					$first_connection = $connection;
-				$this->go_to_another_nodes($next_node,
-					$weight + $connection->get_weight(), $arr_nodes, $workstation, $first_connection);
+					//$first_connection[0] = $connection;
+				if (count($first_connection) == 0)
+					$this->go_to_another_nodes($next_node,
+						$weight + $connection->get_weight(), $arr_nodes, $workstation, array($connection));
+				else
+					$this->go_to_another_nodes($next_node,
+						$weight + $connection->get_weight(), $arr_nodes, $workstation, $first_connection);
 			}
 		}
 
 		public function calculate_ways() {
 			foreach (Workstation::$workstations as $workstation) {
-				$this->go_to_another_nodes($this, 0, array(), $workstation, -1);
+				$this->go_to_another_nodes($this, 0, array(), $workstation, array());
 				asort($this->ways_weight[$workstation->get_id()]);
 				asort($this->ways_transit[$workstation->get_id()]);
 			}
