@@ -51,20 +51,26 @@
 			}
 			$ways = $this->from_node->get_ways($this->destination_workstation->get_id());
 			$ways_connections = $this->from_node->get_ways_connections($this->destination_workstation->get_id());
-
+			$ways_weights = $this->from_node->get_ways_weight($this->destination_workstation->get_id());
+			foreach ($ways_weights as $k => $weight) {
+				$first_key = $k;
+				break;
+			}
 			$z = 0;
-			foreach ($this->from_node->get_ways_weight($this->destination_workstation->get_id())
-				as $k => $v) {
+			foreach ($ways_weights as $k => $weight) {
 				$z++;
-				if (/*!in_array($ways[$k], $this->visited_nodes)*/ 
-					/*(!$this->previous_visited_node || $this->previous_visited_node != $ways[$k])
-						&&*/ $ways_connections[$k]->is_message_on_connection == 0) {
-					$this->dest_node = $ways[$k];
-					$this->curr_connection = $ways_connections[$k];
-					$this->curr_connection->is_message_on_connection = 1;
-					$this->weight_done = 1;
-					$this->get_coords();
-					return;
+				if ($ways_connections[$k]->is_message_on_connection == 0) {
+					if ($k == $first_key || $weight <= $ways_weights[$first_key] + $ways_connections[$first_key]->get_weight())
+					{
+						$this->dest_node = $ways[$k];
+						$this->curr_connection = $ways_connections[$k];
+						$this->curr_connection->is_message_on_connection = 1;
+						$this->weight_done = 1;
+						$this->get_coords();
+						return;
+					}
+					else
+						break;
 				}
 			}
 			$this->weight_done = -1;
@@ -82,8 +88,8 @@
 			}
 		}
 
-		public static function all_messages_sent() {
-			foreach (Message::$messages as $message) {
+		public static function all_messages_sent($messages) {
+			foreach ($messages as $message) {
 				if ($message->arrived == 0)
 					return 0;
 			}

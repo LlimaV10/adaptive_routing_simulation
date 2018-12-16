@@ -29,10 +29,11 @@
 		for ($i = 0; $i < $count_packages; $i++) {
 			new Message($first_node, Workstation::get_station_by_id($_POST["to_station"]));
 			$message = Message::$messages[$i];
-			$s .= "<div class='message' style='left: ".$message->x."px; top: ".$message->y."px;'></div>";
+			$s .= "<div id='p".$i."' class='message' style='left: ".$message->x."px; top: ".$message->y."px;'></div>";
 		}
 	    $result = array(
-	    	'messages' => $s
+	    	'messages' => $s,
+	    	'packages_count' => $count_packages,
 	    ); 
 	    $_SESSION['messages'] = Message::$messages;
 	    // Переводим массив в JSON

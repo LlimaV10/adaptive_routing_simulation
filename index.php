@@ -72,6 +72,7 @@
 			height: 20px;
 			opacity: 0.5;
 			z-index: 10;
+			transition: 1s;
 		}
 	</style>
 	<script type="text/javascript" src="js/jquery.min.js"></script>
@@ -89,8 +90,8 @@
 		<!-- <div class="message"></div> -->
 	</div>
 	<div class="speed_slider">
-		<div>Speed:<span id="speed">20</span></div>
-		<input type="range" min="1" max="100" value="20" id="speed_range">
+		<div>Speed:<span id="speed">1</span></div>
+		<input type="range" min="1" max="10" value="1" id="speed_range">
 	</div>
 	<div class="form">
 		<form id="send_message_form">

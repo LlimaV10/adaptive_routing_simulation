@@ -1,4 +1,5 @@
 <?php
+	if (isset($_POST['speed'])) {
 	require_once("../weights.class.php");
 	require_once("../cons.class.php");
 	require_once("../network.class.php");
@@ -10,32 +11,43 @@
 	require_once("../graph.class.php");
 
 	session_start();
-	$net = $_SESSION['net'];
-	Workstation::$workstations = $_SESSION['workstations'];
-	Connection::$connections = $_SESSION['connections'];
-	Message::$messages = $_SESSION['messages'];
+	// $net = $_SESSION['net'];
+	// Workstation::$workstations = $_SESSION['workstations'];
+	// Connection::$connections = $_SESSION['connections'];
+	// Message::$messages = $_SESSION['messages'];
 	
-	$s = "";
-	foreach (Message::$messages as $message) {
-		$z = $message->get_next_coords();
-		$s .= "<div class='message' style='left: ".$message->x."px; top: ".$message->y."px;'></div>";
+	//$s = "";
+	$messages_left = array();
+	$messages_top = array();
+	for ($i = 0; $i < $_POST['speed']; $i++) {
+		foreach ($_SESSION['messages'] as $message) {
+			$z = $message->get_next_coords();
+			//$s .= "<div class='message' style='left: ".$message->x."px; top: ".$message->y."px;'></div>";
+		}
+	}
+	foreach ($_SESSION['messages'] as $message) {
+		$messages_left[] = $message->x."px";
+		$messages_top[] = $message->y."px";
 	}
 
-	$all_sent = Message::all_messages_sent();
+	$all_sent = Message::all_messages_sent($_SESSION['messages']);
 
 	if ($all_sent == 1)
-		Message::$messages = array();
+		$_SESSION['messages'] = array();
 
 	$result = array(
-    	'messages' => $s,
+    	//'messages' => $s,
+    	'messages_left' => $messages_left,
+    	'messages_top' => $messages_top,
     	'all_sent' => $all_sent,
     	'z' => $z
     );
 
-	$_SESSION['net'] = $net;
-    $_SESSION['workstations'] = Workstation::$workstations;
-    $_SESSION['connections'] = Connection::$connections;
-    $_SESSION['messages'] = Message::$messages;
+	// $_SESSION['net'] = $net;
+ //    $_SESSION['workstations'] = Workstation::$workstations;
+ //    $_SESSION['connections'] = Connection::$connections;
+ //    $_SESSION['messages'] = Message::$messages;
 
 	echo json_encode($result);
+}
 ?>
