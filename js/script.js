@@ -1,8 +1,25 @@
 $( document ).ready(function() {
     $("#send").click(
         function(){
-            send_message('send_message_form', 'ajax/create_packages.php');
+            if (sending_message == 0)
+            {
+                $("#send_message_form_div").css('display', 'none');
+                $("#stop_simulation_button").css('display', 'block');
+                $("#sending_message_info").html("Message_size: " + $("#message_size").val() +
+                    "<br>Max_package_size: " + $("#package_size").val() +
+                    "<br>From_workstation № " + $("#from_station").val() +
+                    "<br>To_workstation № " + $("#to_station").val());
+                $("#sending_message_info").css('display', 'block');
+                sending_message = 1;
+                send_message('send_message_form', 'ajax/create_packages.php');
+            }
             return false; 
+        }
+    );
+    $("#stop_simulation_button").click(
+        function(){
+            if (sending_message == 1)
+                sending_message = 2;
         }
     );
     $("#speed_range").change(
@@ -26,8 +43,23 @@ function next_nodes_step(packages_count) {
             for (i = 0; i < packages_count; i++) {
                 $('#p' + i).css({'top' : result.messages_top[i], 'left' : result.messages_left[i]});
             }
+            if (sending_message == 2)
+            {
+                $("#send_message_form_div").css('display', 'block');
+                $("#stop_simulation_button").css('display', 'none');
+                $("#sending_message_info").css('display', 'none');
+                sending_message = 0;
+                return;
+            }
             if (result.all_sent == 0)
                 next_nodes_step(packages_count);
+            else
+            {
+                $("#send_message_form_div").css('display', 'block');
+                $("#stop_simulation_button").css('display', 'none');
+                $("#sending_message_info").css('display', 'none');
+                sending_message = 0;
+            }
         }
     });
 }

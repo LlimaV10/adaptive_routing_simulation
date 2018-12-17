@@ -17,6 +17,8 @@
 	// Message::$messages = $_SESSION['messages'];
 	
 	//$s = "";
+	Message::$is_message_on_connection = $_SESSION['is_message_on_connection'];
+
 	$messages_left = array();
 	$messages_top = array();
 	for ($i = 0; $i < $_POST['speed']; $i++) {
@@ -25,6 +27,7 @@
 			//$s .= "<div class='message' style='left: ".$message->x."px; top: ".$message->y."px;'></div>";
 		}
 	}
+	$_SESSION['is_message_on_connection'] = Message::$is_message_on_connection;
 	foreach ($_SESSION['messages'] as $message) {
 		$messages_left[] = $message->x."px";
 		$messages_top[] = $message->y."px";
