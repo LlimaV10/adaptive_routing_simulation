@@ -18,9 +18,9 @@
 	
 	//$s = "";
 	Message::$is_message_on_connection = $_SESSION['is_message_on_connection'];
-
 	$messages_left = array();
 	$messages_top = array();
+	//Message::$lock = 0;
 	for ($i = 0; $i < $_POST['speed']; $i++) {
 		foreach ($_SESSION['messages'] as $message) {
 			$z = $message->get_next_coords();

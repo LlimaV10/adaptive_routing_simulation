@@ -13,6 +13,7 @@
 		private $weight_done;
 		public $arrived;
 		public static $is_message_on_connection = array();
+		//public static $lock;
 		private $dont_go_to_node;
 
 		function __construct($node, $dest) {
@@ -21,7 +22,7 @@
 			$this->destination_workstation = $dest;
 			$this->x = $node->x;
 			$this->y = $node->y;
-			$this->curr_connection;
+			$this->curr_connection = 0;
 			$this->visited_nodes = array();
 			$this->weight_done = -1;
 			$this->arrived = 0;
@@ -46,8 +47,8 @@
 			$prev_node = $this->from_node;
 			$this->from_node = $this->dest_node;
 			if ($this->curr_connection)
-				//$this->curr_connection->is_message_on_connection = 0;
 				Message::$is_message_on_connection[$this->curr_connection->get_id()] = 0;
+			$this->curr_connection = 0;
 			if ($this->dest_node == $this->destination_workstation) {
 				$this->arrived = 1;
 				// if ($this->curr_connection)
@@ -91,13 +92,19 @@
 		}
 
 		public function get_next_coords() {
-			if ($this->weight_done == -1 || $this->weight_done >= $this->curr_connection->get_weight()) {
-				return $this->get_next_node();
+			if ($this->weight_done == -1 || !$this->curr_connection || $this->weight_done >= $this->curr_connection->get_weight()) {
+				// while (Message::$lock == 1) {
+
+				// }
+				// Message::$lock = 1;
+				$this->get_next_node();
+				//Message::$lock = 0;
 			}
 			else {
 				$this->weight_done += 1;
 				$this->get_coords();
 			}
+			return 0;
 		}
 
 		public static function all_messages_sent($messages) {

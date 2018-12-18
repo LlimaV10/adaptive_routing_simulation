@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>New network</title>
+	<title>Network</title>
 	<style type="text/css">
 		body {
 			background-color: gray;
@@ -54,7 +54,7 @@
 			z-index: 2;
 			position: absolute;
 			left: 50px;
-			top: 550px;
+			top: 250px;
 			/*bottom: 50px;*/
 			font-size: 18px;
 		}
@@ -130,10 +130,11 @@
 	</div>
 	<div class="menu_container">
 		<a class="menu_button" href="index.php">Back to main menu</a>
+		<br><br><br><br>
+		<a class="menu_button" href="index_load.php">Reload</a>
 	</div>
 	<button id="stop_simulation_button" class="menu_button stop_simulation" style="margin-left: 40px; display: none;">Stop Simulation</button>
 	<div id="sending_message_info" class="sending_message_info" style="display: none;">
-		INFOINFOINFOINFOINFO
 	</div>
 
 	<div class="form" id="send_message_form_div">

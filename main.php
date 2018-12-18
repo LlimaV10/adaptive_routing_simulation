@@ -8,8 +8,8 @@
 	require_once("workstation.class.php");
 	require_once("message.class.php");
 
-	$width = 1800;
-	$height = 900;
+	$width = 1200;
+	$height = 550;
 
 	session_start();
 	

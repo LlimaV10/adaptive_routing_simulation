@@ -29,7 +29,8 @@
 			$count_packages = floor($_POST["message_size"] / $_POST["package_size"]) + 1;
 		// // Формируем массив для JSON ответа
 		$workstation = Workstation::get_station_by_id($_POST["from_station"]);
-		$first_node = $workstation->get_conns()[0]->get_another_node($workstation);
+		$workstation_connection = $workstation->get_conns()[0];
+		$first_node = $workstation_connection->get_another_node($workstation);
 
 		$s = "";
 		for ($i = 0; $i < $count_packages; $i++) {
