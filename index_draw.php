@@ -112,6 +112,12 @@
 	<script type="text/javascript" src="js/script.js"></script>
 	<script type="text/javascript">
 		var sending_message = 0;
+		var time = 0;
+		var previous_message_time = 0;
+		var messages_sent = 0;
+		var packages_count = 0;
+		var frequency;
+		var count_messages;
 	</script>
 </head>
 <body>
@@ -143,22 +149,11 @@
 			<input type="number" name="message_size" id="message_size"><br>
 			Максимальний розмір пакету:<br>
 			<input type="number" name="package_size" id="package_size"><br>
-			Із станції №:<br>
-			<select name="from_station" id="from_station">
-				<?php
-					foreach (Workstation::$workstations as $workstation) {
-						echo "<option>".$workstation->get_id()."</option>";
-					}
-				?>
-			</select><br>
-			У станцію №:<br>
-			<select name="to_station" id="to_station">
-				<?php
-					foreach (Workstation::$workstations as $workstation) {
-						echo "<option>".$workstation->get_id()."</option>";
-					}
-				?>
-			</select><br><br>
+			Частота появи повідомлень:<br>
+			<input type="number" name="frequency" id="frequency"><br>
+			Кількість повідомлень:<br>
+			<input type="number" name="count_messages" id="count_messages"><br>
+			<br><br>
 			<input type="button" id="send" value="Надіслати"><br>
 		</form>
 	</div>

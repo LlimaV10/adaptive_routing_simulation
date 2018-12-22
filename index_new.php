@@ -14,5 +14,12 @@
 	$_SESSION['net'] = $net;
 	$_SESSION['workstations'] = Workstation::$workstations;
 	$_SESSION['connections'] = Connection::$connections;
+
+	$is_message_on_connection = array();
+	foreach (Connection::$connections as $connection) {
+		$is_message_on_connection[$connection->get_id()] = 0;
+	}
+	$_SESSION['is_message_on_connection'] = $is_message_on_connection;
+
 	include("index_draw.php");
 ?>

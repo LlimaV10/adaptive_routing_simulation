@@ -1,3 +1,14 @@
+function clear_all_and_start() {
+    $.ajax({
+        url:     "ajax/clear_connections.php",
+        type:    "POST",
+        dataType: "html",
+        success: function(response) {
+            send_message('send_message_form', 'ajax/create_packages.php');
+        }
+    });
+}
+
 $( document ).ready(function() {
     $("#send").click(
         function(){
@@ -6,12 +17,17 @@ $( document ).ready(function() {
                 $("#send_message_form_div").css('display', 'none');
                 $("#stop_simulation_button").css('display', 'block');
                 $("#sending_message_info").html("Message_size: " + $("#message_size").val() +
-                    "<br>Max_package_size: " + $("#package_size").val() +
-                    "<br>From_workstation № " + $("#from_station").val() +
-                    "<br>To_workstation № " + $("#to_station").val());
+                    "<br>Max_package_size: " + $("#package_size").val());
                 $("#sending_message_info").css('display', 'block');
                 sending_message = 1;
-                send_message('send_message_form', 'ajax/create_packages.php');
+                time = 0;
+                messages_sent = 0;
+                packages_count = 0;
+                previous_message_time = 0;
+                frequency = $("#frequency").val();
+                count_messages = $("#count_messages").val();
+                $('#messages').html("");
+                clear_all_and_start();
             }
             return false; 
         }
@@ -37,11 +53,22 @@ function next_nodes_step(packages_count) {
         url:     "ajax/next_nodes_step.php",
         type:    "POST",
         dataType: "html",
-        data: "speed=" + speed,
+        data: "speed=" + "40" + "&messages_sent=" + messages_sent +
+            "&count_messages=" + count_messages,
         success: function(response) {
+            //console.log(response);
             result = $.parseJSON(response);
             for (i = 0; i < packages_count; i++) {
                 $('#p' + i).css({'top' : result.messages_top[i], 'left' : result.messages_left[i]});
+            }
+            time += 40;//parseInt(speed);
+            console.log(previous_message_time + frequency);
+            console.log(messages_sent + " " + count_messages);
+            if (messages_sent < count_messages && parseInt(time) >= parseInt(previous_message_time) + parseInt(frequency))
+            {
+                console.log("new");
+                send_message('send_message_form', 'ajax/create_packages.php');
+                return;
             }
             if (sending_message == 2)
             {
@@ -49,6 +76,7 @@ function next_nodes_step(packages_count) {
                 $("#stop_simulation_button").css('display', 'none');
                 $("#sending_message_info").css('display', 'none');
                 sending_message = 0;
+                console.log("TIME: " + time);
                 return;
             }
             if (result.all_sent == 0)
@@ -59,22 +87,29 @@ function next_nodes_step(packages_count) {
                 $("#stop_simulation_button").css('display', 'none');
                 $("#sending_message_info").css('display', 'none');
                 sending_message = 0;
+                console.log("TIME: " + time);
             }
         }
     });
 }
 
 function send_message(send_message_form, url) {
+    //console.log($("#"+send_message_form).serialize()+ "&packages_count=" + packages_count);
+
 	$.ajax({
 		url:	 url,
 		type:	 "POST",
 		dataType: "html",
-		data: $("#"+send_message_form).serialize(),
+		data: $("#"+send_message_form).serialize() + "&packages_count=" + packages_count,
 		success: function(response) {
+            //console.log(response);
 			result = $.parseJSON(response);
             if (result) {
-    			$('#messages').html(result.messages);
-                next_nodes_step(result.packages_count);
+    			$('#messages').append(result.messages);
+                messages_sent++;
+                previous_message_time = time;
+                packages_count += result.packages_count;
+                next_nodes_step(packages_count);
             }
 		}
         //,

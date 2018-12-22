@@ -32,8 +32,10 @@
 		$messages_left[] = $message->x."px";
 		$messages_top[] = $message->y."px";
 	}
-
-	$all_sent = Message::all_messages_sent($_SESSION['messages']);
+	if ($_POST['messages_sent'] < $_POST['count_messages'])
+		$all_sent = 0;
+	else
+		$all_sent = Message::all_messages_sent($_SESSION['messages']);
 
 	if ($all_sent == 1)
 		$_SESSION['messages'] = array();

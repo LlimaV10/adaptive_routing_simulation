@@ -8,11 +8,17 @@
 	require_once("workstation.class.php");
 	require_once("message.class.php");
 
-	$width = 1200;
-	$height = 550;
+	$width = 1800;
+	$height = 900;
 
 	session_start();
 	
+	$is_message_on_connection = array();
+	foreach (Connection::$connections as $connection) {
+		$is_message_on_connection[$connection->get_id()] = 0;
+	}
+	$_SESSION['is_message_on_connection'] = $is_message_on_connection;
+	$_SESSION['messages'] = array();
 	// $weights = new Weights(array(2, 4, 5, 9, 10, 12, 18, 21, 23, 26, 28, 32));
 
 	// $net = new Network(3.5, $weights, 2);
