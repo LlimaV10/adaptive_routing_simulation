@@ -1,6 +1,8 @@
 <?php
 	require_once("main.php");
 
+	session_destroy();
+	session_start();
 	$weights = new Weights(array(2, 4, 5, 9, 10, 12, 18, 21, 23, 26, 28, 32));
 
 	$net = new Network(3.5, $weights, 2);

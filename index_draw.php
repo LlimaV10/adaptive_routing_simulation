@@ -45,7 +45,7 @@
 			background-color: lightgray;
 			padding: 10px;
 			border-radius: 10px;
-			top: 300px;
+			top: 350px;
 			text-align: center;
 			font-size: 18px;
 		}
@@ -54,7 +54,7 @@
 			z-index: 2;
 			position: absolute;
 			left: 50px;
-			top: 250px;
+			top: 170px;
 			/*bottom: 50px;*/
 			font-size: 18px;
 		}
@@ -118,6 +118,7 @@
 		var packages_count = 0;
 		var frequency;
 		var count_messages;
+		var type_of_routing;
 	</script>
 </head>
 <body>
@@ -131,7 +132,13 @@
 	<div id="messages">
 	</div>
 	<div class="speed_slider">
-		<div>Speed:<span id="speed">1</span></div>
+		Режим маршрутизації:<br>
+		<input type="radio" name="type_of_routing" value="Datagram" checked> Датаграмний<br>
+		<input type="radio" name="type_of_routing" value="Logical"> Логічного каналу<br>
+		<input type="radio" name="type_of_routing" value="Virtual"> Віртуального каналу<br>
+		Встановити максимальну<br> швидкість симуляції:
+		<input type="checkbox" name="max_speed" id="max_speed">
+		<div>Швидкість:<span id="speed">1</span></div>
 		<input type="range" min="1" max="10" value="1" id="speed_range">
 	</div>
 	<div class="menu_container">

@@ -4,17 +4,16 @@
 	class Message extends Graph
 	{
 		public static $messages = array();
-		private $from_node;
-		private $dest_node;
-		private $curr_connection;
-		private $destination_workstation;
-		private $visited_nodes;
+		public $from_node;
+		public $dest_node;
+		public $curr_connection;
+		public $destination_workstation;
 		private $previous_visited_node;
-		private $weight_done;
+		public $weight_done;
 		public $arrived;
 		public static $is_message_on_connection = array();
-		//public static $lock;
-		private $dont_go_to_node;
+		public $dont_go_to_node;
+
 
 		function __construct($node, $dest) {
 			$this->dest_node = $node;
@@ -23,7 +22,6 @@
 			$this->x = $node->x;
 			$this->y = $node->y;
 			$this->curr_connection = 0;
-			$this->visited_nodes = array();
 			$this->weight_done = -1;
 			$this->arrived = 0;
 			$this->dont_go_to_node = -1;
@@ -42,7 +40,6 @@
 		}
 
 		private function get_next_node() {
-			$this->visited_nodes[] = $this->dest_node;
 			//$this->previous_visited_node = $this->dest_node;
 			$prev_node = $this->from_node;
 			$this->from_node = $this->dest_node;
@@ -93,12 +90,7 @@
 
 		public function get_next_coords() {
 			if ($this->weight_done == -1 || !$this->curr_connection || $this->weight_done >= $this->curr_connection->get_weight()) {
-				// while (Message::$lock == 1) {
-
-				// }
-				// Message::$lock = 1;
 				$this->get_next_node();
-				//Message::$lock = 0;
 			}
 			else {
 				$this->weight_done += 1;
@@ -114,5 +106,9 @@
 			}
 			return 1;
 		}
+
+		// public function set_dest_workstation($dest) {
+		// 	$this->destination_workstation = $dest;
+		// }
 	}
 ?>

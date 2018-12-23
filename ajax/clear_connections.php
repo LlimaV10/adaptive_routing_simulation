@@ -17,5 +17,7 @@
 	}
 	$_SESSION['is_message_on_connection'] = $is_message_on_connection;
 	$_SESSION['messages'] = array();
+	$_SESSION['info_packages'] = array();
+	$_SESSION['info_curr_id'] = 0;
 	echo json_encode(0);
 ?>

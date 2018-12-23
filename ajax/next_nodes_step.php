@@ -9,7 +9,8 @@
 	require_once("../workstation.class.php");
 	require_once("../message.class.php");
 	require_once("../graph.class.php");
-
+	require_once("../info_package.class.php");
+	
 	session_start();
 	// $net = $_SESSION['net'];
 	// Workstation::$workstations = $_SESSION['workstations'];
@@ -20,13 +21,47 @@
 	Message::$is_message_on_connection = $_SESSION['is_message_on_connection'];
 	$messages_left = array();
 	$messages_top = array();
+	$info_packages_done = array();
+
 	//Message::$lock = 0;
 	for ($i = 0; $i < $_POST['speed']; $i++) {
 		foreach ($_SESSION['messages'] as $message) {
 			$z = $message->get_next_coords();
-			//$s .= "<div class='message' style='left: ".$message->x."px; top: ".$message->y."px;'></div>";
+		}
+		foreach ($_SESSION['info_packages'] as $info) {
+			if ($info->arrived && !$info->stop_dublicating_please) {
+				if ($info->count_arrives < 1)
+				{
+					$info->arrived = 0;
+					$dest = $info->destination_workstation;
+					$info->destination_workstation = $info->first_node;
+					$info->first_node = $dest;
+					$dest = $dest->get_conns()[0]->get_another_node($dest);
+
+					$info->dest_node = $dest;
+					$info->from_node = $dest;
+					$info->x = $dest->x;
+					$info->y = $dest->y;
+					$info->curr_connection = 0;
+					$info->weight_done = -1;
+					$info->arrived = 0;
+					$info->dont_go_to_node = -1;
+
+					$info->count_arrives++;
+				}
+			}
 		}
 	}
+	foreach ($_SESSION['info_packages'] as $info) {
+		if ($info->arrived && !$info->stop_dublicating_please) {
+			if ($info->count_arrives >= 1)
+			{
+				$info->stop_dublicating_please = 1;
+				$info_packages_done[] = $info->get_id();
+			}
+		}
+	}
+
 	$_SESSION['is_message_on_connection'] = Message::$is_message_on_connection;
 	foreach ($_SESSION['messages'] as $message) {
 		$messages_left[] = $message->x."px";
@@ -37,15 +72,16 @@
 	else
 		$all_sent = Message::all_messages_sent($_SESSION['messages']);
 
-	if ($all_sent == 1)
-		$_SESSION['messages'] = array();
+	// if ($all_sent == 1)
+	// 	$_SESSION['messages'] = array();
 
 	$result = array(
     	//'messages' => $s,
     	'messages_left' => $messages_left,
     	'messages_top' => $messages_top,
     	'all_sent' => $all_sent,
-    	'z' => $z
+    	'z' => $z,
+    	'info_packages_done' => $info_packages_done
     );
 
 	// $_SESSION['net'] = $net;

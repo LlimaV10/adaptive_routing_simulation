@@ -11,29 +11,13 @@
 	$width = 1800;
 	$height = 900;
 
+
 	session_start();
-	
 	$is_message_on_connection = array();
 	foreach (Connection::$connections as $connection) {
 		$is_message_on_connection[$connection->get_id()] = 0;
 	}
 	$_SESSION['is_message_on_connection'] = $is_message_on_connection;
 	$_SESSION['messages'] = array();
-	// $weights = new Weights(array(2, 4, 5, 9, 10, 12, 18, 21, 23, 26, 28, 32));
-
-	// $net = new Network(3.5, $weights, 2);
-	// $net->add_region(new Region(8));
-	// $net->add_region(new Region(8));
-	// $net->add_region(new Region(8));
-
-	// $net->connect_all();
-	// $net->get_nodes_ways();
-
-	// $_SESSION['net'] = $net;
-	// $_SESSION['workstations'] = Workstation::$workstations;
-	// $_SESSION['connections'] = Connection::$connections;
-	
-	// $net = $_SESSION['net'];
-	// Workstation::$workstations = $_SESSION['workstations'];
-	// Connection::$connections = $_SESSION['connections'];
+	$_SESSION['info_packages'] = array();
 ?>
