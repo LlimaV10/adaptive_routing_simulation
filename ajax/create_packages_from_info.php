@@ -18,10 +18,12 @@
 		Message::$messages = $_SESSION['messages'];
 		Info_package::$info_packages = $_SESSION['info_packages'];
 
-		if ($_POST["message_size"] % $_POST["package_size"] == 0)
-			$count_packages = $_POST["message_size"] / $_POST["package_size"];
+		$package_size = $_POST["package_size"] - 8;
+
+		if ($_POST["message_size"] % $package_size == 0)
+			$count_packages = $_POST["message_size"] / $package_size;
 		else
-			$count_packages = floor($_POST["message_size"] / $_POST["package_size"]) + 1;
+			$count_packages = floor($_POST["message_size"] / $package_size) + 1;
 
 		$info_package = Info_package::get_info_package_by_id($_POST['info_id']);
 		$first_node = $info_package->destination_workstation->get_conns()[0]->get_another_node($info_package->destination_workstation);

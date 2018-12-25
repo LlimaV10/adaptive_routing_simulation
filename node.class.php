@@ -43,11 +43,17 @@
 
 		private function go_to_another_nodes($node, $weight, $arr_nodes, $workstation, $first_connection) {
 			$arr_nodes[] = $node;
+			// if (isset($this->ways[$workstation->get_id()]))
+			// 	if (count($this->ways[$workstation->get_id()]) >= 100)
+			// 		return;
 			if ($node == $workstation) {
-				$this->ways[$workstation->get_id()][] = $arr_nodes[1];
-				$this->ways_connections[$workstation->get_id()][] = $first_connection[0];
-				$this->ways_weight[$workstation->get_id()][] = $weight;
-				$this->ways_transit[$workstation->get_id()][] = count($arr_nodes) - 1;
+				if (!isset($this->ways_weight[$workstation->get_id()][0]) || $weight < $this->ways_weight[$workstation->get_id()][0])
+				{
+					$this->ways[$workstation->get_id()][] = $arr_nodes[1];
+					$this->ways_connections[$workstation->get_id()][] = $first_connection[0];
+					$this->ways_weight[$workstation->get_id()][] = $weight;
+					$this->ways_transit[$workstation->get_id()][] = count($arr_nodes) - 1;
+				}
 			}
 			foreach ($node->get_conns() as $connection) {
 				$next_node = $connection->get_another_node($node);
@@ -68,6 +74,15 @@
 				$this->go_to_another_nodes($this, 0, array(), $workstation, array());
 				asort($this->ways_weight[$workstation->get_id()]);
 				asort($this->ways_transit[$workstation->get_id()]);
+				$i = -1;
+				foreach ($this->ways_weight[$workstation->get_id()] as $k => $v) {
+					$i++;
+					if ($i >= 20) {
+						unset($this->ways[$workstation->get_id()][$k]);
+						unset($this->ways_weight[$workstation->get_id()][$k]);
+						unset($this->ways_transit[$workstation->get_id()][$k]);
+					}
+				}
 			}
 		}
 

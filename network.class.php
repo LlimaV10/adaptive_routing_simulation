@@ -22,7 +22,9 @@
 		public function get_regions() {
 			return ($this->regions);
 		}
-
+		public function get_count_sput(){
+			return $this->count_sput;
+		}
 		private function get_average_degree() {
 			$deg = 0;
 			$count = 0;
@@ -40,7 +42,7 @@
 				for ($j = $i + 1; $j < count($this->regions); $j++) {
 					$node_prev = $this->regions[$i]->get_random_node(0);
 					$node_curr = $this->regions[$j]->get_random_node(0);
-					$ncon = new Connection($this->weights, $node_prev, $node_curr);
+					$ncon = new Connection($this->weights, $node_prev, $node_curr, 0);
 					$node_prev->add_conn($ncon);
 					$node_curr->add_conn($ncon);
 				}
@@ -54,7 +56,7 @@
 					while ($node->have_connection_with($snode = $reg->get_random_node($node)))
 						;
 					//$snode = $reg->get_random_node($node);
-					$ncon = new Connection($this->weights, $node, $snode);
+					$ncon = new Connection($this->weights, $node, $snode, 0);
 					$node->add_conn($ncon);
 					$snode->add_conn($ncon);
 				}
@@ -70,6 +72,9 @@
 			}
 
 			$average = $this->get_average_degree();
+
+			$count_sput = 0;
+
 			while ($average < $this->net_deg) {
 				$reg = $this->regions[rand(0, count($this->regions) - 1)];
 				$node1 = $reg->get_random_node(0);
@@ -78,7 +83,13 @@
 				$node2 = $reg->get_random_node($node1);
 				if ($node1->have_connection_with($node2) > 0)
 					continue;
-				$ncon = new Connection($this->weights, $node1, $node2);
+				if ($count_sput <= 0)
+					$ncon = new Connection($this->weights, $node1, $node2, 0);
+				else
+				{
+					$ncon = new Connection($this->weights, $node1, $node2, 1);
+					$count_sput--;
+				}
 				$node1->add_conn($ncon);
 				$node2->add_conn($ncon);
 				$average = $this->get_average_degree();

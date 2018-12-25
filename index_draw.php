@@ -68,7 +68,7 @@
 			height: 20px;
 			opacity: 0.5;
 			z-index: 10;
-			transition: 1s;
+			transition: 0.1s;
 		}
 		.menu_container {
 			position: absolute;
@@ -107,6 +107,17 @@
 			opacity: 0.9999;
 			z-index: 20;
 		}
+		.result_table {
+			position: absolute;
+			text-align: right;
+			left: 20vw;
+		}
+		.result_table td {
+			padding: 10px 30px;
+			border: 2px solid black;
+			background-color: white;
+			border-radius: 10px;
+		}
 	</style>
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/script.js"></script>
@@ -140,6 +151,9 @@
 		<input type="checkbox" name="max_speed" id="max_speed">
 		<div>Швидкість:<span id="speed">1</span></div>
 		<input type="range" min="1" max="10" value="1" id="speed_range">
+		<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+		<input type="radio" name="type_of_canal" value="half-duplex" checked>Напівдуплексний<br>
+		<input type="radio" name="type_of_canal" value="duplex">Дуплексний<br>
 	</div>
 	<div class="menu_container">
 		<a class="menu_button" href="index.php">Back to main menu</a>
@@ -149,7 +163,8 @@
 	<button id="stop_simulation_button" class="menu_button stop_simulation" style="margin-left: 40px; display: none;">Stop Simulation</button>
 	<div id="sending_message_info" class="sending_message_info" style="display: none;">
 	</div>
-
+	<table id="result_table" class="result_table" style="top: <?php echo ($height)."px"; ?>">
+	</table>
 	<div class="form" id="send_message_form_div">
 		<form id="send_message_form">
 			Розмір повідомлення:<br>
@@ -229,17 +244,41 @@
 				node2 = document.getElementById(<?php echo '"n'.$conn->get_node2()->get_id().'"' ?>);
 				snode1 = getComputedStyle(node1);
 				snode2 = getComputedStyle(node2);
-				ctx.moveTo(parseInt(snode1.left), parseInt(snode1.top));
-				ctx.lineTo(parseInt(snode2.left), parseInt(snode2.top));
-				<?php if ($conn->get_weight() != 0) {?>
+				<?php
+					if ($conn->get_sput()) {
+				?>
+				ctx2.strokeStyle = '#0000FF';
+				ctx2.moveTo(parseInt(snode1.left), parseInt(snode1.top));
+				ctx2.lineTo(parseInt(snode2.left), parseInt(snode2.top));
+				ctx2.stroke();
+				<?php }
+				else {
+					?>
+					ctx.moveTo(parseInt(snode1.left), parseInt(snode1.top));
+					ctx.lineTo(parseInt(snode2.left), parseInt(snode2.top));
+					<?php
+				}
+				?>
+				
+				
+				<?php if ($conn->get_weight() != 0) {
+						if (!$conn->get_sput()) {
+					?>
 					ctx2.fillText(<?php echo '"'.$conn->get_weight().'"' ?>, (parseInt(snode1.left) + parseInt(snode2.left)) / 2 - 6,
 						(parseInt(snode1.top) + parseInt(snode2.top)) / 2);	
-				<?php }?>
+				<?php }
+				else {
+					?>
+					ctx2.fillText(<?php echo '"'.($conn->get_weight() / 3).'"' ?>, (parseInt(snode1.left) + parseInt(snode2.left)) / 2 - 6,
+						(parseInt(snode1.top) + parseInt(snode2.top)) / 2);
+					<?php
+				} }?>
 				//console.log(snode1.left + " " + snode1.top);
 			<?php
 		}
 		?>
 			ctx.stroke();
+			ctx2.stroke();
 		</script>
 </body>
 </html>

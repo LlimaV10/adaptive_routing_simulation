@@ -19,14 +19,29 @@
 	
 	//$s = "";
 	Message::$is_message_on_connection = $_SESSION['is_message_on_connection'];
+	Message::$is_message_on_connection_duplex = $_SESSION['is_message_on_connection_duplex'];
 	$messages_left = array();
 	$messages_top = array();
 	$info_packages_done = array();
 
 	//Message::$lock = 0;
+	$z = 0;
 	for ($i = 0; $i < $_POST['speed']; $i++) {
 		foreach ($_SESSION['messages'] as $message) {
-			$z = $message->get_next_coords();
+			if ($_POST['type_of_canal'] == "half-duplex")
+			{
+				if ($_POST['virtual'] != 1)
+					$z = $message->get_next_coords();
+				else
+					$z = $message->get_next_coords_virtual();
+			}
+			else
+			{
+				if ($_POST['virtual'] != 1)
+					$z = $message->get_next_coords_duplex();
+				else
+					$z = $message->get_next_coords_virtual_duplex();
+			}
 		}
 		foreach ($_SESSION['info_packages'] as $info) {
 			if ($info->arrived && !$info->stop_dublicating_please) {
@@ -63,6 +78,7 @@
 	}
 
 	$_SESSION['is_message_on_connection'] = Message::$is_message_on_connection;
+	$_SESSION['is_message_on_connection_duplex'] = Message::$is_message_on_connection_duplex;
 	foreach ($_SESSION['messages'] as $message) {
 		$messages_left[] = $message->x."px";
 		$messages_top[] = $message->y."px";

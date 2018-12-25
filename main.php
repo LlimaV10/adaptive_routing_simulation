@@ -18,6 +18,11 @@
 		$is_message_on_connection[$connection->get_id()] = 0;
 	}
 	$_SESSION['is_message_on_connection'] = $is_message_on_connection;
+	$is_message_on_connection_duplex = array();
+	foreach (Connection::$connections as $connection) {
+		$is_message_on_connection_duplex[$connection->get_id()] = array();
+	}
+	$_SESSION['is_message_on_connection_duplex'] = $is_message_on_connection_duplex;
 	$_SESSION['messages'] = array();
 	$_SESSION['info_packages'] = array();
 ?>

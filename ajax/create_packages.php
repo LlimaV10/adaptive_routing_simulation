@@ -19,10 +19,12 @@
 		Connection::$connections = $_SESSION['connections'];
 		Message::$messages = $_SESSION['messages'];
 
-		if ($_POST["message_size"] % $_POST["package_size"] == 0)
-			$count_packages = $_POST["message_size"] / $_POST["package_size"];
+		$package_size = $_POST["package_size"] - 20;
+
+		if ($_POST["message_size"] % $package_size == 0)
+			$count_packages = $_POST["message_size"] / $package_size;
 		else
-			$count_packages = floor($_POST["message_size"] / $_POST["package_size"]) + 1;
+			$count_packages = floor($_POST["message_size"] / $package_size) + 1;
 
 		$from_station = random_int(Workstation::$workstations[0]->get_id(), Workstation::$workstations[count(Workstation::$workstations) - 1]->get_id());
 		$to_station = $from_station;

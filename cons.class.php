@@ -6,14 +6,19 @@
 		private $node1;
 		private $node2;
 		private $weight;
+		private $sput;
 		//public  $is_message_on_connection;
 		public static $connections = array();
 
-		function __construct($weights, $n1, $n2) {
+		function __construct($weights, $n1, $n2, $sput) {
 			$this->node1 = $n1;
 			$this->node2 = $n2;
-			$this->weight = $weights->get_weight();
+			if (!$sput)
+				$this->weight = $weights->get_weight();
+			else
+				$this->weight = $weights->get_weight() * 3;
 			$this->id = Connection::$curr_id++;
+			$this->sput = $sput;
 			//$this->is_message_on_connection = 0;
 			Connection::$connections[] = $this;
 		}
@@ -36,6 +41,9 @@
 		}
 		public function get_id() {
 			return $this->id;
+		}
+		public function get_sput() {
+			return $this->sput;
 		}
 	}
 ?>
