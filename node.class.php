@@ -47,13 +47,13 @@
 			// 	if (count($this->ways[$workstation->get_id()]) >= 100)
 			// 		return;
 			if ($node == $workstation) {
-				if (!isset($this->ways_weight[$workstation->get_id()][0]) || $weight < $this->ways_weight[$workstation->get_id()][0])
-				{
-					$this->ways[$workstation->get_id()][] = $arr_nodes[1];
-					$this->ways_connections[$workstation->get_id()][] = $first_connection[0];
-					$this->ways_weight[$workstation->get_id()][] = $weight;
-					$this->ways_transit[$workstation->get_id()][] = count($arr_nodes) - 1;
-				}
+				// if (!isset($this->ways_weight[$workstation->get_id()][0]) || $weight < $this->ways_weight[$workstation->get_id()][0])
+				// {
+				$this->ways[$workstation->get_id()][] = $arr_nodes[1];
+				$this->ways_connections[$workstation->get_id()][] = $first_connection[0];
+				$this->ways_weight[$workstation->get_id()][] = $weight;
+				$this->ways_transit[$workstation->get_id()][] = count($arr_nodes) - 1;
+				//}
 			}
 			foreach ($node->get_conns() as $connection) {
 				$next_node = $connection->get_another_node($node);
