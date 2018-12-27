@@ -32,9 +32,9 @@
 </head>
 <body>
 	<div class="menu_container">
-		<a class="menu_button" href="index_new.php">New Network</a>
+		<a class="menu_button" href="index_new.php">Створити нову мережу</a>
 		<br><br><br><br><br>
-		<a class="menu_button" href="index_load.php">Load Network from Session</a>
+		<a class="menu_button" href="index_load.php">Загрузити мережу з сессії</a>
 	</div>
 </body>
 </html>

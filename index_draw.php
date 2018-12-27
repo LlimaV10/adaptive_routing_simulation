@@ -118,6 +118,23 @@
 			background-color: white;
 			border-radius: 10px;
 		}
+		.routing_table {
+			position: absolute;
+			padding: 50px;
+			left: 50vw;
+			top: <?php echo ($height)."px"; ?>;
+			text-align: center;
+			background-color: white;
+			border: 1px solid black;
+			font-size: 18px;
+		}
+		.saved_result_tables table{
+			/*position: absolute;*/
+			top: <?php echo ($height + 500)."px"; ?>;
+		}
+		/*.saved_result_tables table{
+			position: relative;
+		}*/
 	</style>
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/script.js"></script>
@@ -144,9 +161,9 @@
 	</div>
 	<div class="speed_slider">
 		Режим маршрутизації:<br>
-		<input type="radio" name="type_of_routing" value="Datagram" checked> Датаграмний<br>
-		<input type="radio" name="type_of_routing" value="Logical"> Логічного каналу<br>
-		<input type="radio" name="type_of_routing" value="Virtual"> Віртуального каналу<br>
+		<input type="radio" name="type_of_routing" value="Datagram" checked> Датаграмний режим<br>
+		<input type="radio" name="type_of_routing" value="Logical"> Режим логічного з'єднання<br>
+		<input type="radio" name="type_of_routing" value="Virtual"> Режим віртуального каналу<br>
 		Встановити максимальну<br> швидкість симуляції:
 		<input type="checkbox" name="max_speed" id="max_speed">
 		<div>Швидкість:<span id="speed">1</span></div>
@@ -154,17 +171,36 @@
 		<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 		<input type="radio" name="type_of_canal" value="half-duplex" checked>Напівдуплексний<br>
 		<input type="radio" name="type_of_canal" value="duplex">Дуплексний<br>
+		<br>
+		<button id="save_1">Save to 1</button>
+		<button id="save_2">Save to 2</button>
+		<button id="save_3">Save to 3</button>
 	</div>
 	<div class="menu_container">
-		<a class="menu_button" href="index.php">Back to main menu</a>
+		<a class="menu_button" href="index.php">Повернутися в головне меню</a>
 		<br><br><br><br>
-		<a class="menu_button" href="index_load.php">Reload</a>
+		<a class="menu_button" href="index_load.php">Перезагрузити</a>
 	</div>
 	<button id="stop_simulation_button" class="menu_button stop_simulation" style="margin-left: 40px; display: none;">Stop Simulation</button>
 	<div id="sending_message_info" class="sending_message_info" style="display: none;">
 	</div>
 	<table id="result_table" class="result_table" style="top: <?php echo ($height)."px"; ?>">
 	</table>
+	<div class="saved_result_tables">
+		<table id="saved_1" class="result_table" style="left: 478px;">
+		</table>
+		<table id="saved_2" class="result_table" style="left: 250px;">
+		</table>
+		<table id="saved_3" class="result_table" style="left: 50px;">
+		</table>
+	</div>
+	<div class="routing_table">
+		Таблиця маршрутизації для <?php echo $routing_table_station; ?> станції
+		<hr>
+		<div id="routing_table">
+			<?php echo Message::get_routing_tables($routing_table_station); ?>
+		</div>
+	</div>
 	<div class="form" id="send_message_form_div">
 		<form id="send_message_form">
 			Розмір повідомлення:<br>
@@ -220,6 +256,7 @@
 				else
 					$node_y = $reg_ys[$i] + sqrt(-pow($reg_xs[$i], 2) +
 						2 * $reg_xs[$i] * $node_x + pow($vis_rad, 2) - pow($node_x, 2));
+				$node_x += 130;
 				$nodes[$j]->x = $node_x;
 				$nodes[$j]->y = $node_y;
 				echo '<div id="n'.$nodes[$j]->get_id().'" class="node" style="left: '.$node_x.'px; top: '.$node_y.'px;">'.$nodes[$j]->get_id().'</div>';

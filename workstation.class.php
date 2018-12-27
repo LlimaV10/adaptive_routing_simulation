@@ -1,7 +1,7 @@
 <?php
 	require_once("node.class.php");
 	require_once("cons.class.php");
-	require_once("way.class.php");
+	// require_once("way.class.php");
 
 	class Workstation extends Node
 	{

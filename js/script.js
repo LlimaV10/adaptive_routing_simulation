@@ -53,6 +53,22 @@ $( document ).ready(function() {
 			$("#speed").html(this.value);
 		}   
 	);
+
+	$("#save_1").click(
+		function(){
+			$("#saved_1").html($("#result_table").html());
+		}
+	);
+	$("#save_2").click(
+		function(){
+			$("#saved_2").html($("#result_table").html());
+		}
+	);
+	$("#save_3").click(
+		function(){
+			$("#saved_3").html($("#result_table").html());
+		}
+	);
 });
 
 function next_nodes_step(packages_count, virtual) {

@@ -81,6 +81,7 @@
 						unset($this->ways[$workstation->get_id()][$k]);
 						unset($this->ways_weight[$workstation->get_id()][$k]);
 						unset($this->ways_transit[$workstation->get_id()][$k]);
+						unset($this->ways_connections[$workstation->get_id()][$k]);
 					}
 				}
 			}

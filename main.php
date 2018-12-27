@@ -11,6 +11,7 @@
 	$width = 1800;
 	$height = 900;
 
+	$routing_table_station = 24;
 
 	session_start();
 	$is_message_on_connection = array();

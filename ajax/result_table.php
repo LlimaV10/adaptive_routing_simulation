@@ -20,17 +20,17 @@
 	$s = "";
 	if ($_POST['type_of_routing'] == "Datagram")
 	{
-		$s .= "<tr><td>Датаграмний режим</td></tr>";
+		$s .= "<tr><td></td><td>Датаграмний режим</td></tr>";
 		$size_of_header = 20;
 	}
 	else if ($_POST['type_of_routing'] == "Logical")
 	{
-		$s .= "<tr><td>Режим логічного каналу</td></tr>";
+		$s .= "<tr><td></td><td>Режим логічного каналу</td></tr>";
 		$size_of_header = 8;
 	}
 	else if ($_POST['type_of_routing'] == "Virtual")
 	{
-		$s .= "<tr><td>Режим віртуального каналу</td></tr>";
+		$s .= "<tr><td></td><td>Режим віртуального каналу</td></tr>";
 		$size_of_header = 8;
 	}
 	$s .= "<tr><td>Час роботи:</td><td>".$_POST['time']." тактів</td></tr>";

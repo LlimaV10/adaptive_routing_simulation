@@ -248,5 +248,29 @@
 			}
 			return 0;
 		}
+
+		public static function get_routing_tables($routing_table_station) {
+			$routing_station = Workstation::get_station_by_id($routing_table_station);
+			if (!$routing_station)
+				return "";
+			$s = "";
+			foreach (Workstation::$workstations as $workstation) {
+				if ($workstation != $routing_station) {
+					$s .= "Workstation ".$routing_table_station;
+					$node = $routing_station->get_conns()[0]->get_another_node($routing_station);
+					//$s .= "->Node ".$node->get_id();
+					while ($node != $workstation) {
+						$s .= "->Node ".$node->get_id();
+						foreach ($node->get_ways_weight($workstation->get_id()) as $k => $v) {
+							$node = $node->get_ways($workstation->get_id())[$k];
+							break;
+						}
+					}
+					$s .= "->Workstation ".$node->get_id()."<br>";
+				}
+			}
+			return $s;
+		}
+
 	}
 ?>
