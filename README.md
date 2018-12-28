@@ -1,1 +1,1 @@
-![alt text](README_img/Network.png)
+![Network](https://raw.githubusercontent.com/LlimaV10/adaptive_routing_simulation/master/README_img/Network.PNG)
