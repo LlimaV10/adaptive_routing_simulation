@@ -15,6 +15,7 @@
 
 Главное меню:
 ![main_menu](https://raw.githubusercontent.com/LlimaV10/adaptive_routing_simulation/master/README_img/main_menu.PNG)
+
 Если программа запущена впервые нажмите "Створити нову мережу". Генерация может занять небольшое время.
 Если же сеть уже была ранее сгенерирована - можно загрузить её из сессии вашего браузера.
 
@@ -26,11 +27,13 @@
 (Станция для вывода таблицы задается в файле main.php[14 строка], также сверху есть возможность поменять ширину и высоту в зависимости от разрешения вашего экрана)
 
 ![parameters](https://raw.githubusercontent.com/LlimaV10/adaptive_routing_simulation/master/README_img/parameters.PNG)
+
 В левой части экрана выберите режим маршрутизации, параметры симуляции и тип канала. После чего нажмите кнопку "Надіслати".
 
 ![simulation](https://raw.githubusercontent.com/LlimaV10/adaptive_routing_simulation/master/README_img/simulation.png)
-Симуляция запущена и можно наблюдать поведение сети.
+Симуляция запущена и можно наблюдать за поведением пакетов в сети.
 В левом меню можно регулировать скорость симуляции.
 
 ![result_table](https://raw.githubusercontent.com/LlimaV10/adaptive_routing_simulation/master/README_img/result_table.PNG)
+
 После окончания симуляции будет выведена таблица с результатами.
